@@ -12,6 +12,7 @@ namespace TurnBasedWebApi
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Match>().HasIndex(m => m.Code).IsUnique();
+            modelBuilder.Entity<MatchPlayer>().HasKey(mp => new { mp.MatchId, mp.PlayerId });
             modelBuilder.Entity<MatchPlayer>().HasIndex(mp => new { mp.MatchId, mp.Slot }).IsUnique();
             modelBuilder.Entity<MatchPlayer>().HasIndex(mp => new { mp.MatchId, mp.PlayerId }).IsUnique();
             modelBuilder.Entity<MatchPlayer>().HasOne(mp => mp.Match).WithMany(m => m.Players).HasForeignKey(mp => mp.MatchId);

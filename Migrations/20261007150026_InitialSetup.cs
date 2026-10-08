@@ -12,7 +12,7 @@ namespace TurnBasedWebApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Match",
+                name: "Matches",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -20,16 +20,17 @@ namespace TurnBasedWebApi.Migrations
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     StartedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     OverAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CurrentHostPlayerId = table.Column<Guid>(type: "uuid", nullable: false),
                     CurrentTurnMatchPlayerId = table.Column<Guid>(type: "uuid", nullable: true),
                     WinnerId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Match", x => x.Id);
+                    table.PrimaryKey("PK_Matches", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Player",
+                name: "Players",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -38,59 +39,59 @@ namespace TurnBasedWebApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Player", x => x.Id);
+                    table.PrimaryKey("PK_Players", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MatchPlayer",
+                name: "MatchPlayers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     PlayerId = table.Column<Guid>(type: "uuid", nullable: false),
                     MatchId = table.Column<Guid>(type: "uuid", nullable: false),
                     Role = table.Column<int>(type: "integer", nullable: false),
                     Slot = table.Column<int>(type: "integer", nullable: false),
                     Hp = table.Column<int>(type: "integer", nullable: false),
+                    IsReady = table.Column<bool>(type: "boolean", nullable: false),
                     JoinedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MatchPlayer", x => x.Id);
+                    table.PrimaryKey("PK_MatchPlayers", x => new { x.MatchId, x.PlayerId });
                     table.ForeignKey(
-                        name: "FK_MatchPlayer_Match_MatchId",
+                        name: "FK_MatchPlayers_Matches_MatchId",
                         column: x => x.MatchId,
-                        principalTable: "Match",
+                        principalTable: "Matches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MatchPlayer_Player_PlayerId",
+                        name: "FK_MatchPlayers_Players_PlayerId",
                         column: x => x.PlayerId,
-                        principalTable: "Player",
+                        principalTable: "Players",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Match_Code",
-                table: "Match",
+                name: "IX_Matches_Code",
+                table: "Matches",
                 column: "Code",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MatchPlayer_MatchId_PlayerId",
-                table: "MatchPlayer",
+                name: "IX_MatchPlayers_MatchId_PlayerId",
+                table: "MatchPlayers",
                 columns: new[] { "MatchId", "PlayerId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MatchPlayer_MatchId_Slot",
-                table: "MatchPlayer",
+                name: "IX_MatchPlayers_MatchId_Slot",
+                table: "MatchPlayers",
                 columns: new[] { "MatchId", "Slot" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MatchPlayer_PlayerId",
-                table: "MatchPlayer",
+                name: "IX_MatchPlayers_PlayerId",
+                table: "MatchPlayers",
                 column: "PlayerId");
         }
 
@@ -98,13 +99,13 @@ namespace TurnBasedWebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MatchPlayer");
+                name: "MatchPlayers");
 
             migrationBuilder.DropTable(
-                name: "Match");
+                name: "Matches");
 
             migrationBuilder.DropTable(
-                name: "Player");
+                name: "Players");
         }
     }
 }

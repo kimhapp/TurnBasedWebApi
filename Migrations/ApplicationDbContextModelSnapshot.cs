@@ -35,6 +35,9 @@ namespace TurnBasedWebApi.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("CurrentHostPlayerId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("CurrentTurnMatchPlayerId")
                         .HasColumnType("uuid");
 
@@ -57,8 +60,10 @@ namespace TurnBasedWebApi.Migrations
 
             modelBuilder.Entity("TurnBasedWebApi.Models.MatchPlayer", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("MatchId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PlayerId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Hp")
@@ -70,19 +75,13 @@ namespace TurnBasedWebApi.Migrations
                     b.Property<DateTime>("JoinedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("MatchId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PlayerId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
                     b.Property<int>("Slot")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("MatchId", "PlayerId");
 
                     b.HasIndex("PlayerId");
 

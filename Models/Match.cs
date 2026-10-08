@@ -9,6 +9,7 @@ namespace TurnBasedWebApi.Models
         public DateTime? OverAt { get; set; }
 
         public List<MatchPlayer> Players { get; set; } = [];
+        public Guid CurrentHostPlayerId { get; set; }
         public Guid? CurrentTurnMatchPlayerId { get; set; }
         public Guid? WinnerId { get; set; }
 

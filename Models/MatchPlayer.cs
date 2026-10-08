@@ -2,7 +2,6 @@ namespace TurnBasedWebApi.Models
 {
     public class MatchPlayer
     {
-        public Guid Id { get; set; }
         public Guid PlayerId { get; set; }
         public Player Player { get; set; } = null!;
         public Guid MatchId { get; set; }

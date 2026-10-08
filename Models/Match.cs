@@ -10,10 +10,11 @@ namespace TurnBasedWebApi.Models
 
         public List<MatchPlayer> Players { get; set; } = [];
         public Guid CurrentHostPlayerId { get; set; }
-        public Guid? CurrentTurnMatchPlayerId { get; set; }
+        public Guid? CurrentTurnPlayerId { get; set; }
         public Guid? WinnerId { get; set; }
+        public uint Version { get; set; }
 
         public bool IsOver => OverAt.HasValue;
-        public bool HasStarted => StartedAt.HasValue && !OverAt.HasValue;
+        public bool HasStarted => StartedAt.HasValue;
     }
 }

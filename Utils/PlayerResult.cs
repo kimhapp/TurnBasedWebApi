@@ -6,7 +6,8 @@ namespace TurnBasedWebApi.Utils
     {
         Success,
         NotFound,
-        BadRequest
+        BadRequest,
+        Conflict
     }
 
     public record PlayerResult(PlayerStatus Status, string? Error = null, Player? Player = null)
@@ -14,5 +15,6 @@ namespace TurnBasedWebApi.Utils
         public static PlayerResult Success(Player? player = null) => new(PlayerStatus.Success, Player: player);
         public static PlayerResult NotFound(string? error = null) => new(PlayerStatus.NotFound, Error: error);
         public static PlayerResult BadRequest(string? error = null) => new(PlayerStatus.BadRequest, Error: error);
+        public static PlayerResult Conflict(string? error = null) => new(PlayerStatus.Conflict, Error: error);
     }
 }

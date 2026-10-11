@@ -26,7 +26,7 @@ namespace TurnBasedWebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMatch(CreateMatchDto createMatchDto)
         {
-            PlayerResult playerResult = await playerService.CreatePlayerAsync(createMatchDto.Name);
+            PlayerResult playerResult = await playerService.RegisterPlayerAsync(createMatchDto.Name);
             if (playerResult.Status != PlayerStatus.Success) return BadRequest(playerResult.Error); 
             
             Player player = playerResult.Player!;
@@ -38,7 +38,7 @@ namespace TurnBasedWebApi.Controllers
         [HttpPost("join")]
         public async Task<IActionResult> JoinMatch(JoinMatchDto joinMatchDto)
         {
-            PlayerResult playerResult = await playerService.CreatePlayerAsync(joinMatchDto.Name);
+            PlayerResult playerResult = await playerService.RegisterPlayerAsync(joinMatchDto.Name);
             if (playerResult.Status != PlayerStatus.Success) return BadRequest(playerResult.Error); 
             
             Player player = playerResult.Player!;

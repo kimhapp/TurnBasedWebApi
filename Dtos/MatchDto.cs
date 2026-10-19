@@ -42,20 +42,10 @@ namespace TurnBasedWebApi.Dtos
         public string Code { get; set; } = "";
     }
 
-    // Player Id and Match Id have to be manually input as there's no auth option for now
     public class SetReadyDto
     {
         [Required]
-        public Guid PlayerId { get; set; }
-
-        [Required]
         public bool IsReady { get; set; }
-    }
-
-    public class GenericMatchDto
-    {
-        [Required]
-        public Guid PlayerId { get; set; }
     }
 
     public static class MatchExtensions
